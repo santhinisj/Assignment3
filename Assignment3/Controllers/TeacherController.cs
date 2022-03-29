@@ -24,7 +24,7 @@ namespace Assignment3.Controllers
             IEnumerable<Teacher> Teachers = controller.ListTeachers();
             return View(Teachers);
         }
-        //GET : Teacher/Show/{fname}
+        //GET : Teacher/Show/9
         [Route("/Teacher/show/{id}")]
         public ActionResult Show(int id)
         {
