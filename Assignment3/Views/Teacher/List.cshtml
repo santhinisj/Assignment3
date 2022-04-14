@@ -10,7 +10,10 @@
     @{
         foreach (Assignment3.Models.Teacher Teacher in Model)
         {
-            <div> @Teacher.TeacherFname @Teacher.TeacherLname</div>
+             <div class="listitem row">
+            <div class="col-md-12"><a href="/Teacher/Show/@Teacher.TeacherId">@Teacher.TeacherFname @Teacher.TeacherLname</a></div>
+        </div>
+           
         }
       }
 </div>
