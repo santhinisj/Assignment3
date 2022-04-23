@@ -55,7 +55,7 @@ namespace Assignment3.Controllers
                 string TeacherLname = ResultSet["teacherlname"].ToString();
                 string EmployeeNumber = ResultSet["employeenumber"].ToString();
                 DateTime HireDate = (DateTime)ResultSet["hiredate"];
-                string Salary = ResultSet["salary"].ToString();
+                decimal Salary = (decimal)ResultSet["salary"];
 
 
                 Teacher NewTeacher = new Teacher();
@@ -111,7 +111,7 @@ namespace Assignment3.Controllers
                 string TeacherLname = ResultSet["teacherlname"].ToString();
                 string EmployeeNumber = ResultSet["employeenumber"].ToString();
                 DateTime HireDate = (DateTime)ResultSet["hiredate"];
-                string Salary = ResultSet["salary"].ToString();
+                decimal Salary = Convert.ToDecimal(ResultSet["salary"]);
 
                 NewTeacher.TeacherId = TeacherId;
                 NewTeacher.TeacherFname = TeacherFname;
@@ -189,7 +189,7 @@ namespace Assignment3.Controllers
             cmd.Parameters.AddWithValue("@TeacherLname", NewTeacher.TeacherLname);
             cmd.Parameters.AddWithValue("@EmployeeNumber", NewTeacher.EmployeeNumber);
             cmd.Parameters.AddWithValue("@HireDate", NewTeacher.HireDate);
-            cmd.Parameters.AddWithValue("@Salary", System.Convert.ToDecimal((NewTeacher.Salary)));
+            cmd.Parameters.AddWithValue("@Salary", NewTeacher.Salary);
             cmd.Prepare();
 
             cmd.ExecuteNonQuery();
@@ -199,6 +199,40 @@ namespace Assignment3.Controllers
 
 
         }
+
+
+        [HttpPost]
+        [Route("api/TeacherData/UpdateTeacher/{TeacherInfo}")]
+
+        /// <summary>
+        /// Updates teacher information in the teacher database
+        /// </summary>
+        /// <param name="TeacherId">Primary key of the teacher table</param>
+        /// <param name="TeacherInfo">Teacher object that consists of Teacher's first name, last name and salary</param>
+
+        public void UpdateTeacher(Teacher TeacherInfo)
+        {
+            MySqlConnection Conn = School.AccessDatabase();
+
+            Conn.Open();
+
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            cmd.CommandText = "update teachers set teacherfname=@teacherfname, teacherlname=@teacherlname, salary=@teachersalary where teacherid=@teacherid";
+
+            cmd.Parameters.AddWithValue("@teacherfname", TeacherInfo.TeacherFname);
+            cmd.Parameters.AddWithValue("@teacherlname", TeacherInfo.TeacherLname);
+            cmd.Parameters.AddWithValue("@teachersalary", TeacherInfo.Salary);
+            cmd.Parameters.AddWithValue("@teacherid", TeacherInfo.TeacherId);
+
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+        }
+
+
 
     }
 }

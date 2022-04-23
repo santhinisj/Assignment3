@@ -55,7 +55,7 @@ namespace Assignment3.Controllers
             return RedirectToAction("List");
         }
 
-        //GET : /Author/New
+        //GET : /Teacher/New
         public ActionResult New()
         {
             return View();
@@ -63,7 +63,7 @@ namespace Assignment3.Controllers
 
         //POST : /Teacher/Create
         [HttpPost]
-        public ActionResult Create(string TeacherFname, string TeacherLname,string EmployeeNumber, string Salary)
+        public ActionResult Create(string TeacherFname, string TeacherLname,string EmployeeNumber, decimal Salary)
         {
             //Identify that this method is running
             //Identify the inputs provided from the form
@@ -86,6 +86,44 @@ namespace Assignment3.Controllers
 
             return RedirectToAction("List");
         }
+
+        /// <summary>
+        /// This method retrieves the data and show the details of selected author in the webpage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        //GET : /Teacher/Update/{id}
+        public ActionResult Update(int id)
+        {
+
+            TeacherDataController controller = new TeacherDataController();
+            Teacher SelectedTeacher = controller.FindTeacher(id);
+            return View(SelectedTeacher);
+        }
+
+        /// <summary>
+        /// This method updates the data in the web to the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        //POST: /Teacher/Update/{id}
+        [HttpPost] 
+
+        public ActionResult Update(int id, string teacherfname, string teacherlname, decimal salary)
+        {
+
+            Teacher Teacher = new Teacher();
+            Teacher.TeacherFname = teacherfname;
+            Teacher.TeacherLname = teacherlname;
+            Teacher.Salary = salary;
+            Teacher.TeacherId = id;
+
+            TeacherDataController controller = new TeacherDataController();
+            controller.UpdateTeacher(Teacher);
+            //return to the updated teacher page
+            return RedirectToAction("Show/" + id);
+        }
+
 
     }
 

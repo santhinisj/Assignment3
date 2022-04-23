@@ -13,6 +13,6 @@ namespace Assignment3.Models
         public string TeacherLname;
         public string EmployeeNumber;
         public DateTime HireDate;
-        public string Salary;
+        public decimal Salary;
     }
 }
